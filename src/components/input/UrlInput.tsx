@@ -17,6 +17,7 @@ export const UrlInput = () => {
       .then((data) => {
         console.log("Success:", data);
         setLoading(false);
+        setUrl("");
       })
       .catch((error) => {
         console.error("Error:", error);

@@ -12,7 +12,7 @@ export const InputContainer = () => {
       }}
     >
       <text style={{ color: "white" }}>O sube el link de la imagen</text>
-      <div style={{ width: 800 }}>
+      <div style={{ width: 1200 }}>
         <UrlInput />
       </div>
     </div>
