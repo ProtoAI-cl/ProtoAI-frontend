@@ -1,0 +1,26 @@
+[
+    {
+        "engine": "upper_thumb",
+        "value": 0.3179299728734303
+    },
+    {
+        "engine": "lower_thumb",
+        "value": 0.4543439782987442
+    },
+    {
+        "engine": "index_finger",
+        "value": 0.030182032875905707
+    },
+    {
+        "engine": "middle_finger",
+        "value": 0.027182659705938472
+    },
+    {
+        "engine": "ring_finger",
+        "value": 0.02670372199843296
+    },
+    {
+        "engine": "pinky_finger",
+        "value": 0.02761208395703252
+    }
+]
