@@ -1,13 +1,5 @@
 [
     {
-        "engine": "upper_thumb",
-        "value": 0.08870997006373926
-    },
-    {
-        "engine": "lower_thumb",
-        "value": 0.2709679760509913
-    },
-    {
         "engine": "index_finger",
         "value": 0.39578772560077746
     },
@@ -22,5 +14,15 @@
     {
         "engine": "pinky_finger",
         "value": 0.2264056711686937
+    },
+    {
+        "engine": "lower_thumb",
+        "value": 0.2709679760509913
+    },
+    {
+        "engine": "upper_thumb",
+        "value": 0.08870997006373926
     }
 ]
+
+
