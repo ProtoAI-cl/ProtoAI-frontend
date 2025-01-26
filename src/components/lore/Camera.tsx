@@ -15,11 +15,10 @@ const Camera: React.FC = () => {
     const webcamRef = useRef<Webcam>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [cameraActivated, setCameraActivated] = useState(false);
-    const [keypoints, setKeypoints] = useState<string>("");
-    const [leftHand, setLeftHand] = useState<string>()
-    const [rightHand, setRightHand] = useState<string>()
-    const [ipAddress, setIpAddress] = useState('');
-    const [port, setPort] = useState('');
+    const [leftHand, setLeftHand] = useState<string>("")
+    const [rightHand, setRightHand] = useState<string>("")
+    const [ipAddress, setIpAddress] = useState("127.0.0.1");
+    const [port, setPort] = useState("8000");
     const [socket, setSocket] = useState<WebSocket | null>(null);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -36,20 +35,25 @@ const Camera: React.FC = () => {
 
     const generate_sock = () => {
         if (ipAddress && port) {
-            const ws = new WebSocket(`ws://${ipAddress}:${port}`);
+            const ws = new WebSocket(`ws://${ipAddress}:${port}/ws`);
+
             ws.onopen = () => {
                 console.log("WebSocket connection established");
                 setSocket(ws);
             };
+
             ws.onerror = (error) => {
                 console.error("WebSocket error:", error);
             };
+
             ws.onclose = () => {
                 console.log("WebSocket connection closed");
                 setSocket(null);
             };
         }
+
     };
+
 
     useEffect(() => {
         let camera: cam.Camera | null = null;
@@ -100,17 +104,24 @@ const Camera: React.FC = () => {
             }
         };
     }, [cameraActivated]);
-
+    useEffect(() => {
+        return () => {
+            if (socket) {
+                socket.close();
+            }
+        };
+    }, [socket]);
     const onResults = (results: Results) => {
-        const extractedKeyPoints = extractKeyPoints(results);
-        setLeftHand(JSON.stringify(extractedKeyPoints[0], null, 2))
-        setRightHand(JSON.stringify(extractedKeyPoints[1], null, 2))
+        const [left, right] = extractKeyPoints(results);
 
+        // Update UI states
+        setLeftHand(JSON.stringify(left, null, 2));
+        setRightHand(JSON.stringify(right, null, 2));
 
-        //// Send keypoints via WebSocket if the connection is open
-        //if (socket && socket.readyState === WebSocket.OPEN) {
-        //    socket.send(JSON.stringify(keypoints));
-        //}
+        // Send fresh data (combine both hands)
+        if (socket?.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({ left, right }));
+        }
 
         drawResults(results);
     };
@@ -155,7 +166,7 @@ const Camera: React.FC = () => {
                 point.x ?? 0,
                 point.y ?? 0,
                 point.z ?? 0,
-            ]).flat() || new Array(21 * 3).fill(0);
+            ]).flat() || new Array(63).fill(0);
 
         const rh =
             results.rightHandLandmarks?.map((point) => [
@@ -203,6 +214,21 @@ const Camera: React.FC = () => {
             ) : (
                 <button onClick={() => setCameraActivated(true)}>Activar Cámara</button>
             )}
+
+            <div>
+                <form >
+                    <div>
+                        <label >Destiny IP:</label>
+                        <input onChange={handleip} value={ipAddress} type="text" id="fname" name="fname" />
+                    </div>
+                    <div>
+                        <label >Destiny Port:</label>
+                        <input onChange={handleport} value={port} type="text" id="lname" name="lname" />
+                    </div>
+
+                </form>
+                <button onClick={generate_sock}>Transmitir datos</button>
+            </div>
         </div>
 
     );
