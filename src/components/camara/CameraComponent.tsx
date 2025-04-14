@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, FormEvent } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import * as cam from "@mediapipe/camera_utils";
 import {
