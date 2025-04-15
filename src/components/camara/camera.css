@@ -1,0 +1,31 @@
+.fullContainer {
+  width: 1100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #eee;
+  padding: 1em;
+  border: solid;
+  border-radius: 10px;
+}
+
+.camera_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+  padding: 1em;
+}
+.keypoints {
+  display: flex;
+}
+
+.form_div {
+  background-color: grey;
+  padding: 1em;
+}
+
+.form {
+  display: flex;
+  align-items: start;
+}
